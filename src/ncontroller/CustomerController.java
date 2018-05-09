@@ -2,6 +2,7 @@ package ncontroller;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.Principal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,8 +109,8 @@ public class CustomerController {
 	//@RequestMapping(value="noticeReg.htm",method=RequestMethod.POST)
 	//public int insert(Notice n) ...
 	//customer/upload 업로드 경로
-	@RequestMapping(value="noticeReg.htm",method=RequestMethod.POST)
-	public String noticeReg(Notice n, HttpServletRequest request) throws IOException, ClassNotFoundException, SQLException {
+	@RequestMapping(value="noticeReg.htm",method=RequestMethod.POST) //principal 인증객체 생성시 자동으로 받아옴
+	public String noticeReg(Notice n, HttpServletRequest request, Principal principal) throws IOException, ClassNotFoundException, SQLException {
 			
 		   //다중 파일 업로드
 		   //view 코드 (JSP)
@@ -152,15 +153,18 @@ public class CustomerController {
 		   
 		   ///////////////////////////////////////////
 		   //security 처리 인증사용자 정보 얻기
+		   /*
 		   SecurityContext context = SecurityContextHolder.getContext(); //getContext 사이트 정보 전체 -> 스프링이 가지고 있는 설정 모두 가져오기(security 설정에 대한 전체 정보)
 		   Authentication auth = context.getAuthentication(); //인증에 관한 정보 따로 빼오기 
 		   UserDetails userinfo = (UserDetails)auth.getPrincipal(); //권한 정책에 대한 내용
-		   System.out.println(userinfo.getAuthorities()); //권한정보 
+		   System.out.println(userinfo.getAuthorities()); //권한정보 (****)
 		   System.out.println(userinfo.getUsername()); //userid (로그인한 정보)
 		   System.out.println(userinfo.getPassword()); //password
 		   
 		   n.setWriter(userinfo.getUsername());
+		   */
 		   
+		   n.setWriter(principal.getName());
 		   ///////////////////////////////////////////
 		   
 		   NoticeDao noticedao = sqlsession.getMapper(NoticeDao.class);
