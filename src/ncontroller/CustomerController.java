@@ -164,7 +164,7 @@ public class CustomerController {
 		   n.setWriter(userinfo.getUsername());
 		   */
 		   
-		   n.setWriter(principal.getName());
+		   n.setWriter(principal.getName()); //자세한 정보는 얻지 못하지만 더 간단한 방법 
 		   ///////////////////////////////////////////
 		   
 		   NoticeDao noticedao = sqlsession.getMapper(NoticeDao.class);
