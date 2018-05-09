@@ -371,7 +371,8 @@ This content will only be visible to users who are authorized to send requests t
         SELECT USERID  ,  pwd AS PASSWORD ,  1 enabled FROM member;
           사용해야 되는 쿼리는
         SELECT USERID  ,  pwd AS PASSWORD ,  1 enabled 
-        FROM member WHERE userid='kglim';
+        FROM member WHERE userid='kglim'; 
+        -> 인증에 대한 쿼리
 
 [권장사항]
 설계 : Table 3개
@@ -384,6 +385,7 @@ select m.userid, m.pwd , 1 enabled , r.ROLE_NAME
 from member m join roll r
 on m.userid = r.userid
 where m.userid='admin';
+-> 권한에 대한 쿼리
 
  
 4. 만약 roll 테이블 만들지 않고 TEST 원하면 아래처럼  

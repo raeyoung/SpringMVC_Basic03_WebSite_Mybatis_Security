@@ -32,7 +32,7 @@
 	/login 처리, 
 	/logout 처리는 하고있지 않음 (Spring 설정)
 	사용자가 login, logout 에 대해 직접 처리 가능하다  
--->
+
 <security:http>
   <security:csrf disabled="true"/>
   <security:form-login login-page="/joinus/login.htm" authentication-failure-url="/joinus/login.htm?error" />
@@ -49,5 +49,23 @@
       </security:user-service>
      </security:authentication-provider>
  </security:authentication-manager> 
- 
+--> 
+
+<security:http>
+  <security:csrf disabled="true"/>
+  <security:form-login login-page="/joinus/login.htm" authentication-failure-url="/joinus/login.htm?error" />
+  <security:logout logout-success-url="/index.htm" />
+  <security:intercept-url pattern="/customer/noticeDetail.htm" access="hasRole('ROLE_USER')"/>
+  <security:intercept-url pattern="/customer/noticeReg.htm" access="hasRole('ROLE_ADMIN')"/>
+</security:http>
+
+<security:authentication-manager>
+        <security:authentication-provider>
+            <security:jdbc-user-service data-source-ref="driverManagerDataSource"
+            users-by-username-query="SELECT USERID, pwd AS PASSWORD, 1 enabled FROM member WHERE userid=?" 
+            authorities-by-username-query="select m.userid, r.ROLE_NAME from member m join roll r on m.userid = r.userid where m.userid=?"
+            />
+        </security:authentication-provider>
+</security:authentication-manager>
+
 </beans>
