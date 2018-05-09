@@ -430,7 +430,10 @@ FROM member WHERE userid=?
   <security:intercept-url pattern="/customer/*Reg.htm" access="ROLE_USER" />
   <security:intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
 ^^
-
+	4.x.x
+  <security:intercept-url pattern="/customer/*Reg.htm" access="hasRole('ROLE_USER')" />
+  <security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+  
 **실습 테이블 -1**    
 CREATE TABLE roll (
  userid VARCHAR2(20),
