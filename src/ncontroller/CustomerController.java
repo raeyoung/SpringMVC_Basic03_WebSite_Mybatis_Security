@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -145,6 +149,19 @@ public class CustomerController {
 		   //실 DB INSERT
 		   n.setFileSrc(filenames.get(0));
 		   n.setFileSrc2(filenames.get(1));
+		   
+		   ///////////////////////////////////////////
+		   //security 처리 인증사용자 정보 얻기
+		   SecurityContext context = SecurityContextHolder.getContext(); //getContext 사이트 정보 전체 -> 스프링이 가지고 있는 설정 모두 가져오기(security 설정에 대한 전체 정보)
+		   Authentication auth = context.getAuthentication(); //인증에 관한 정보 따로 빼오기 
+		   UserDetails userinfo = (UserDetails)auth.getPrincipal(); //권한 정책에 대한 내용
+		   System.out.println(userinfo.getAuthorities()); //권한정보 
+		   System.out.println(userinfo.getUsername()); //userid (로그인한 정보)
+		   System.out.println(userinfo.getPassword()); //password
+		   
+		   n.setWriter(userinfo.getUsername());
+		   
+		   ///////////////////////////////////////////
 		   
 		   NoticeDao noticedao = sqlsession.getMapper(NoticeDao.class);
 		   noticedao.insert(n);
